@@ -26,13 +26,21 @@ file="$1"; shift
 
 if [ "$cmd" = "tex" ]; then
 	outfile=$(echo "$file" | sed 's/.md$/.tex/')
-	pandoc --data-dir=/var/lib/pandoc --template=eisvogel.latex --from gfm+smart --to latex -o "$outfile" "$file" $*
+	if [ $# -gt 0 ]; then
+        pandoc --data-dir=/var/lib/pandoc --template=eisvogel.latex --to latex -o "$outfile" $* "$file"
+        exit $?
+	fi
+	pandoc --data-dir=/var/lib/pandoc --template=eisvogel.latex --pdf-engine=xelatex --from markdown+yaml_metadata_block+smart+backtick_code_blocks+grid_tables --table-of-contents --to latex --listings --number-sections -o "$outfile" "$file"
 	exit $?
 fi
 
 if [ "$cmd" = "pdf" ]; then
 	outfile=$(echo "$file" | sed 's/.md$/.pdf/')
-	pandoc --data-dir=/var/lib/pandoc --template=eisvogel.latex --from gfm+smart --to pdf -o "$outfile" "$file" $*
+	if [ $# -gt 0 ]; then
+        pandoc --data-dir=/var/lib/pandoc --template=eisvogel.latex --to pdf -o "$outfile" $* "$file"
+        exit $?
+	fi
+	pandoc --data-dir=/var/lib/pandoc --template=eisvogel.latex --pdf-engine=xelatex --from markdown+yaml_metadata_block+smart+backtick_code_blocks+grid_tables --table-of-contents --to pdf --listings --number-sections -o "$outfile" "$file"
 	exit $?
 fi
 
