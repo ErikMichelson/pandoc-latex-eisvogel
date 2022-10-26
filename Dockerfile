@@ -1,4 +1,4 @@
-FROM pandoc/latex:2.16
+FROM pandoc/latex:2.19
 
 RUN apk --no-cache add aspell aspell-de
 RUN tlmgr install adjustbox babel-german background bidi collectbox csquotes everypage filehook footmisc footnotebackref framed fvextra letltxmacro ly1 mdframed mweights needspace pagecolor selnolig sourcecodepro sourcesanspro titling ucharcat ulem unicode-math upquote xecjk xurl zref
